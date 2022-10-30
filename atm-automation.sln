@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Automation.Core", "Automation.Core\Automation.Core.csproj", "{002D870B-54AE-4962-AF16-E1023129C4BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Automation.Repository", "Automation.Repository\Automation.Repository.csproj", "{AFE99F1F-4769-42BC-91DB-A1D85AF4538E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomationAPI", "AutomationAPI\AutomationAPI.csproj", "{6F49B8FD-EA73-44E7-91B6-8EF2CF5B86AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Automation.Service", "Automation.Service\Automation.Service.csproj", "{B62A0203-001D-4003-8EF5-5DE19472E6AD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{002D870B-54AE-4962-AF16-E1023129C4BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{002D870B-54AE-4962-AF16-E1023129C4BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{002D870B-54AE-4962-AF16-E1023129C4BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{002D870B-54AE-4962-AF16-E1023129C4BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFE99F1F-4769-42BC-91DB-A1D85AF4538E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFE99F1F-4769-42BC-91DB-A1D85AF4538E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFE99F1F-4769-42BC-91DB-A1D85AF4538E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFE99F1F-4769-42BC-91DB-A1D85AF4538E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F49B8FD-EA73-44E7-91B6-8EF2CF5B86AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F49B8FD-EA73-44E7-91B6-8EF2CF5B86AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F49B8FD-EA73-44E7-91B6-8EF2CF5B86AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F49B8FD-EA73-44E7-91B6-8EF2CF5B86AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B62A0203-001D-4003-8EF5-5DE19472E6AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B62A0203-001D-4003-8EF5-5DE19472E6AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B62A0203-001D-4003-8EF5-5DE19472E6AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B62A0203-001D-4003-8EF5-5DE19472E6AD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+	EndGlobalSection
+EndGlobal

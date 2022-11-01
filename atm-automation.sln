@@ -1,12 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Automation.Core", "Automation.Core\Automation.Core.csproj", "{002D870B-54AE-4962-AF16-E1023129C4BC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{002D870B-54AE-4962-AF16-E1023129C4BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Automation.Repository", "Automation.Repository\Automation.Repository.csproj", "{AFE99F1F-4769-42BC-91DB-A1D85AF4538E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{AFE99F1F-4769-42BC-91DB-A1D85AF4538E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomationAPI", "AutomationAPI\AutomationAPI.csproj", "{6F49B8FD-EA73-44E7-91B6-8EF2CF5B86AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Automation.Service", "Automation.Service\Automation.Service.csproj", "{B62A0203-001D-4003-8EF5-5DE19472E6AD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{B62A0203-001D-4003-8EF5-5DE19472E6AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,4 +1,4 @@
-using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 using Automation.Core.Repository;
 using Automation.Core.Service;
 using Automation.Core.UnitOfWork;
@@ -6,7 +6,8 @@ using Automation.Repository.Context;
 using Automation.Repository.Repository;
 using Automation.Repository.UnitOfWork;
 using Automation.Service.Service;
-using Microsoft.EntityFrameworkCore;
+using System.Reflection;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +22,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
-builder.Services.AddAutoMapper(typeof(MapProfile));
+
+builder.Services.AddScoped<IMoneyRepository, MoneyRepository>();
+builder.Services.AddScoped<IMoneyService, MoneyService>();
+
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {

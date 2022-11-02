@@ -15,11 +15,11 @@ namespace Automation.Repository.Seeds
         public void Configure(EntityTypeBuilder<Tape> builder)
         {
             builder.HasData(
-                new Tape { ID_TAPE = 1, TAPE_MONEY_TYPE_ID = enumTapeMoneyType.ALL, TAPE_STATE_TYPE_ID = enumTapeStateType.Inbound },
-                new Tape { ID_TAPE = 2, TAPE_MONEY_TYPE_ID = enumTapeMoneyType.TRY, TAPE_STATE_TYPE_ID = enumTapeStateType.InboundOutbound },
-                new Tape { ID_TAPE = 3, TAPE_MONEY_TYPE_ID = enumTapeMoneyType.USD, TAPE_STATE_TYPE_ID = enumTapeStateType.InboundOutbound },
-                new Tape { ID_TAPE = 4, TAPE_MONEY_TYPE_ID = enumTapeMoneyType.EUR, TAPE_STATE_TYPE_ID = enumTapeStateType.InboundOutbound },
-                new Tape { ID_TAPE = 5, TAPE_MONEY_TYPE_ID = enumTapeMoneyType.ALL, TAPE_STATE_TYPE_ID = enumTapeStateType.InboundOutbound }
+                new Tape { ID_TAPE = 1, TAPE_MONEY_TYPE_ID = enumMoneyType.ALL, TAPE_STATE_TYPE_ID = enumTapeStateType.Inbound },
+                new Tape { ID_TAPE = 2, TAPE_MONEY_TYPE_ID = enumMoneyType.TRY, TAPE_STATE_TYPE_ID = enumTapeStateType.InboundOutbound },
+                new Tape { ID_TAPE = 3, TAPE_MONEY_TYPE_ID = enumMoneyType.USD, TAPE_STATE_TYPE_ID = enumTapeStateType.InboundOutbound },
+                new Tape { ID_TAPE = 4, TAPE_MONEY_TYPE_ID = enumMoneyType.EUR, TAPE_STATE_TYPE_ID = enumTapeStateType.InboundOutbound },
+                new Tape { ID_TAPE = 5, TAPE_MONEY_TYPE_ID = enumMoneyType.ALL, TAPE_STATE_TYPE_ID = enumTapeStateType.InboundOutbound }
             );
         }
     }

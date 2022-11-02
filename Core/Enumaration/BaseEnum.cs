@@ -4,7 +4,8 @@ public enum enumMoneyType
 {
     TRY = 1,
     USD = 2,
-    EUR = 3
+    EUR = 3,
+    ALL = 4
 }
 
 public enum enumMoneyName
@@ -19,12 +20,4 @@ public enum enumTapeStateType
     Inbound = 1,
     Outbound = 2,
     InboundOutbound = 3
-}
-
-public enum enumTapeMoneyType
-{
-    TRY = 1,
-    USD = 2,
-    EUR = 3,
-    ALL = 4
 }

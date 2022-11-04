@@ -14,5 +14,6 @@ public class MoneyConfiguration : IEntityTypeConfiguration<Money>
         builder.Property(x => x.MONEY_NAME).IsRequired().HasColumnType("nvarchar(50)");
         builder.Property(x => x.MONEY_VALUE).IsRequired().HasColumnType("int");
         builder.Property(x => x.MONEY_TYPE_ID).IsRequired().HasColumnType("int");
+        builder.Property(x => x.ID_TAPE).IsRequired().HasColumnType("int");
     }
 }

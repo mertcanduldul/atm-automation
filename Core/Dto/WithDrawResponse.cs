@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Automation.Core.Dto
 {
-    public class GetMoneyResponse:BaseDto
+    public class WithDrawResponse:BaseDto
     {
         public int PaidMoney { get; set; }
     }

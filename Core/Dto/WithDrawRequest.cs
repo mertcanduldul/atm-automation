@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Automation.Core.Dto
 {
-    public class GetMoneyRequest
+    public class WithDrawRequest
     {
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Please enter valid integer Number")]

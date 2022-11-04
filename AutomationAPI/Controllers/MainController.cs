@@ -1,11 +1,7 @@
 ﻿using Automation.Core.Dto;
-using Automation.Core.Entities;
-using Automation.Core.Enumaration;
 using Automation.Core.Service;
-using Automation.Service.Service;
-using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace AutomationAPI.Controllers
 {
@@ -21,24 +17,35 @@ namespace AutomationAPI.Controllers
         }
 
         [HttpGet]
+        [SwaggerOperation(Summary = "Servis kontrol metodu")]
         public string Get()
         {
             return "AutomationAPI Successfull Reached.";
         }
 
-
-        [HttpGet]
-        public async Task<IActionResult> GetTotalMoney()
+        [HttpPost]
+        [SwaggerOperation(Summary = "Para çekme işlemi")]
+        public async Task<IActionResult> WithDraw(WithDrawRequest request)
         {
-            var result = await _moneyService.GetTotalMoney();
+            var result = await _moneyService.WithDraw(request.MoneyType, request.Money);
             return Ok(result);
         }
 
-
         [HttpPost]
-        public async Task<IActionResult> GetMoney(GetMoneyRequest request)
+        [SwaggerOperation(Summary = "Para yatırma işlemi")]
+        public async Task<DepositResponse> Deposit(DepositRequest request)
         {
-            var result = await _moneyService.GetMoney(request.MoneyType, request.Money);
+            var list = await _moneyService.Deposit(request);
+            if (list.IsSuccess)
+                await _moneyService.AddRangeAsync(list.Data);
+            return new DepositResponse { IsSuccess = list.IsSuccess, Message = list.Message };
+        }
+
+        [HttpGet]
+        [SwaggerOperation(Summary = "ATM toplam parayı döner")]
+        public async Task<IActionResult> GetTotalMoney()
+        {
+            var result = await _moneyService.GetTotalMoney();
             return Ok(result);
         }
 

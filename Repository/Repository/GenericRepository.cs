@@ -1,14 +1,14 @@
-using System.Linq.Expressions;
 using Automation.Core.Repository;
 using Automation.Repository.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Automation.Repository.Repository;
 
 public class GenericRepository<T> : IGenericRepository<T> where T : class
 {
     protected readonly AppDbContext _context;
-    protected readonly DbSet<T> _dbSet;
+    private readonly DbSet<T> _dbSet;
 
     public GenericRepository(AppDbContext context)
     {

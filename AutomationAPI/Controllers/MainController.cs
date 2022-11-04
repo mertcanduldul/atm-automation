@@ -25,10 +25,14 @@ namespace AutomationAPI.Controllers
 
         [HttpPost]
         [SwaggerOperation(Summary = "Para çekme işlemi")]
-        public async Task<IActionResult> WithDraw(WithDrawRequest request)
+        public async Task<WithDrawResponse> WithDraw(WithDrawRequest request)
         {
-            var result = await _moneyService.WithDraw(request.MoneyType, request.Money);
-            return Ok(result);
+            var list = await _moneyService.WithDraw(request.MoneyType, request.Money);
+            if (list.IsSuccess)
+            {
+                await _moneyService.RemoveRangeAsync(list.Data);
+            }
+            return new WithDrawResponse { IsSuccess = list.IsSuccess, Message = list.Message, PaidMoney = list.TotalMoney };
         }
 
         [HttpPost]

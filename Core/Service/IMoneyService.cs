@@ -12,7 +12,7 @@ namespace Automation.Core.Service
     public interface IMoneyService : IService<Money>
     {
         Task<int> GetTotalMoney();
-        Task<BaseDto> WithDraw(enumMoneyType moneyType, int moneyValue);
+        Task<WithDrawModel> WithDraw(enumMoneyType moneyType, int moneyValue);
         Task<PreDepositModel> Deposit(DepositRequest request);
         Task<List<Money>> SplitMoneyToPaper(int moneyValue, enumMoneyType moneyType);
         enumMoneyName moneyTypeToString(enumMoneyType type);

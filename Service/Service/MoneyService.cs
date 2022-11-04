@@ -18,7 +18,7 @@ namespace Automation.Service.Service
             _moneyRepository = moneyRepository;
         }
 
-        public async Task<BaseDto> WithDraw(enumMoneyType moneyType, int moneyValue)
+        public async Task<WithDrawModel> WithDraw(enumMoneyType moneyType, int moneyValue)
         {
             try
             {
@@ -29,21 +29,44 @@ namespace Automation.Service.Service
 
                     if (getTape > 0 && avaiableGetMoney >= moneyValue)
                     {
+                        List<Money> ThirthTapeMoneyCountByTypeList = await _moneyRepository.Where(x => x.ID_TAPE == 4 && x.MONEY_TYPE_ID == moneyType).ToListAsync();
                         List<Money> moneyList = await _moneyRepository.Where(x => x.ID_TAPE == getTape).ToListAsync();
-                        _moneyRepository.RemoveRange(moneyList); //Kasetten para çekilir
-                        return new BaseDto { IsSuccess = true, Message = "Para çekme işlemi başarılı" };
+                        moneyList.AddRange(ThirthTapeMoneyCountByTypeList);
+
+                        var getMoneyFromTapeByMoneyValue = await SplitMoneyToPaper(moneyValue, moneyType);
+
+                        List<Money> responseList = new List<Money>();
+
+                        foreach (Money generalItem in getMoneyFromTapeByMoneyValue)
+                        {
+                            foreach (Money item in moneyList)
+                            {
+                                if (generalItem.MONEY_TYPE_ID == item.MONEY_TYPE_ID &&
+                                    generalItem.MONEY_VALUE == item.MONEY_VALUE)
+                                {
+                                    responseList.Add(item);
+                                }
+                            }
+                        }
+                        var totalMoney = responseList.Sum(x => x.MONEY_VALUE);
+                        if (moneyValue == totalMoney)
+                        {
+                            return new WithDrawModel { IsSuccess = true, Message = "Para çekme işlemi başarılı", Data = responseList, TotalMoney = totalMoney };
+                        }
+                        else
+                            return new WithDrawModel { IsSuccess = false, Message = "Para çekme işlemi için yeterli para adedi bulunmamaktadır." };
                     }
                     else
-                        return new BaseDto { IsSuccess = false, Message = $"ATM içerisinde istenilen tutarda para bulunmamaktadır. En fazla çekilebilecek tutar {avaiableGetMoney}'dır." };
+                        return new WithDrawModel { IsSuccess = false, Message = $"ATM içerisinde istenilen tutarda para bulunmamaktadır. En fazla çekilebilecek tutar {avaiableGetMoney}'dır." };
                 }
                 else
                 {
-                    return new BaseDto { IsSuccess = false, Message = "20₺, 50₺, 100₺ ve katlarını çekebilirsiniz." };
+                    return new WithDrawModel { IsSuccess = false, Message = "20₺, 50₺, 100₺ ve katlarını çekebilirsiniz." };
                 }
             }
             catch (Exception ex)
             {
-                return new BaseDto { IsSuccess = false, Message = $"Para çekme işleminde hata alındı. Hata Detayı : {ex.ToString()}" };
+                return new WithDrawModel { IsSuccess = false, Message = $"Para çekme işleminde hata alındı. Hata Detayı : {ex.ToString()}" };
             }
         }
         public async Task<int> GetTotalMoney()
@@ -55,30 +78,37 @@ namespace Automation.Service.Service
         {
             try
             {
-                var tapeId = await _moneyRepository.GetProperTapeIdForDepositByMoneyType(request.MONEY_TYPE);
-
-                if (tapeId > 0)
+                if (request.MONEY_VALUE % 20 == 0 || request.MONEY_VALUE % 50 == 0 || request.MONEY_VALUE % 100 == 0 || request.MONEY_VALUE % 500 == 0)
                 {
-                    var tapeCount = await _moneyRepository.GetMoneyCountByTapeId(tapeId);
-                    var depositPaper = await SplitMoneyToPaper(request.MONEY_VALUE, request.MONEY_TYPE);
+                    var tapeId = await _moneyRepository.GetProperTapeIdForDepositByMoneyType(request.MONEY_TYPE);
 
-                    if (tapeCount + depositPaper.Count < 100)
+                    if (tapeId > 0)
                     {
-                        return new PreDepositModel { IsSuccess = true, Message = "Para yatırma işlemi başarılı.", Data = depositPaper };
+                        var tapeCount = await _moneyRepository.GetMoneyCountByTapeId(tapeId);
+                        var depositPaper = await SplitMoneyToPaper(request.MONEY_VALUE, request.MONEY_TYPE);
+
+                        if (tapeCount + depositPaper.Count < 100)
+                        {
+                            return new PreDepositModel { IsSuccess = true, Message = "Para yatırma işlemi başarılı.", Data = depositPaper };
+                        }
+                        else
+                        {
+                            return new PreDepositModel { IsSuccess = false, Message = "Kasette yeterli alan bulunamadı." };
+                        }
                     }
                     else
                     {
-                        return new PreDepositModel { IsSuccess = false, Message = "Kasette yeterli alan bulunamadı." };
+                        return new PreDepositModel { IsSuccess = false, Message = "Paraya uygun kaset bulunamadı." };
                     }
                 }
                 else
                 {
-                    return new PreDepositModel { IsSuccess = false, Message = "Paraya uygun kaset bulunamadı." };
+                    return new PreDepositModel { IsSuccess = false, Message = "20₺, 50₺, 100₺ ve katlarını yatırabilirsiniz." };
                 }
             }
             catch (Exception ex)
             {
-                return new PreDepositModel { IsSuccess = false, Message = $"Para yatırma işleminde hata alındı. Hata Detayı : { ex.ToString() }" };
+                return new PreDepositModel { IsSuccess = false, Message = $"Para yatırma işleminde hata alındı. Hata Detayı : {ex.ToString()}" };
             }
         }
         public async Task<List<Money>> SplitMoneyToPaper(int moneyValue, enumMoneyType moneyType)
@@ -107,13 +137,15 @@ namespace Automation.Service.Service
                         money.MONEY_VALUE = paper[i];
                         money.MONEY_TYPE_ID = moneyType;
                         money.MONEY_NAME = moneyTypeToString(moneyType);
-                        money.ID_TAPE = 100; //Parçalanmış paraların bulunduğu kaset Queue olacak
+                        money.ID_TAPE = 100; //Parçalanmış paraların bulunduğu kaset Queue olacak, Hangfire ile sürekli olarak tetiklenecek
                         moneyList.Add(money);
                     }
                 }
             }
             return moneyList;
         }
+
+
         public enumMoneyName moneyTypeToString(enumMoneyType type)
         {
             switch (type)

@@ -10,6 +10,8 @@ namespace Automation.Core.Repository
         Task<int> TotalMoneyByProperTapeId(int ID_TAPE);
         Task<int> GetMoneyCountByTapeId(int ID_TAPE);
         Task<int> GetProperTapeIdForDepositByMoneyType(enumMoneyType moneyType);
+        Task<List<Money>> GetQueueMoney();
+        Task<List<Money>> WaitingMoneyListToProperTape();
 
     }
 }

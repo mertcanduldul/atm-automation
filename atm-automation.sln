@@ -1,12 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{002D870B-54AE-4962-AF16-E1023129C4BC}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{002D870B-54AE-4962-AF16-E1023129C4BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{AFE99F1F-4769-42BC-91DB-A1D85AF4538E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{AFE99F1F-4769-42BC-91DB-A1D85AF4538E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomationAPI", "AutomationAPI\AutomationAPI.csproj", "{6F49B8FD-EA73-44E7-91B6-8EF2CF5B86AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutomationAPI", "AutomationAPI\AutomationAPI.csproj", "{6F49B8FD-EA73-44E7-91B6-8EF2CF5B86AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{B62A0203-001D-4003-8EF5-5DE19472E6AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "Service\Service.csproj", "{B62A0203-001D-4003-8EF5-5DE19472E6AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +34,10 @@ Global
 		{B62A0203-001D-4003-8EF5-5DE19472E6AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B62A0203-001D-4003-8EF5-5DE19472E6AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {95F567DC-8AC3-48A7-932B-614B2D8540F5}
 	EndGlobalSection
 EndGlobal

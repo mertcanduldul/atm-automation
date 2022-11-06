@@ -7,6 +7,7 @@ using Automation.Repository.UnitOfWork;
 using Automation.Service.Service;
 using System.Reflection;
 using Hangfire;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,7 +30,8 @@ builder.Services.AddDbContext<Automation.Repository.Context.AppDbContext>(option
     options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnectionString"),
         options => options.MigrationsAssembly(Assembly.GetAssembly(typeof(Automation.Repository.Context.AppDbContext)).GetName().Name));
 });
-builder.Services.AddHangfire(x => x.UseSqlServerStorage(builder.Configuration.GetConnectionString("HangFireConnectionString")));
+builder.Services.AddHangfire(x => x.UseSqlServerStorage(builder.Configuration.GetConnectionString("HangFireConnectionString")
+    ));
 builder.Services.AddHangfireServer();
 
 var app = builder.Build();
@@ -37,8 +39,12 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
-    app.UseHangfireDashboard();
+    app.UseSwaggerUI(c => c.HeadContent = "<a href ='https://localhost:7240/hangfire'> Goto Hangfire Dashboard </a>");
+    app.UseHangfireDashboard("/hangfire", new DashboardOptions
+    {
+        AppPath = "/swagger", //Back to site alaný içindir
+        DashboardTitle = "ATM Automation Hangfire Dashboard" //Header içindir
+    });
 }
 
 app.UseHttpsRedirection();

@@ -1,4 +1,5 @@
 ﻿using Automation.Core.Dto;
+using Automation.Core.Repository;
 using Automation.Core.Service;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -11,9 +12,12 @@ namespace AutomationAPI.Controllers
     {
         public readonly IMoneyService _moneyService;
 
+
         public MainController(IMoneyService moneyService)
         {
             _moneyService = moneyService;
+            _moneyService.WaitingMoneyListToProperTape();
+
         }
 
         [HttpGet]

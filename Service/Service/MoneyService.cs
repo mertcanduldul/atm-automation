@@ -31,33 +31,30 @@ namespace Automation.Service.Service
                     {
                         List<Money> ThirthTapeMoneyCountByTypeList = await _moneyRepository.Where(x => x.ID_TAPE == 4 && x.MONEY_TYPE_ID == moneyType).ToListAsync();
                         List<Money> moneyList = await _moneyRepository.Where(x => x.ID_TAPE == getTape).ToListAsync();
+                        List<Money> responseList = new();
+
                         moneyList.AddRange(ThirthTapeMoneyCountByTypeList);
 
                         var getMoneyFromTapeByMoneyValue = await SplitMoneyToPaper(moneyValue, moneyType);
 
-                        List<Money> responseList = new List<Money>();
-
-                        foreach (Money generalItem in getMoneyFromTapeByMoneyValue)
+                        foreach (var item in getMoneyFromTapeByMoneyValue)
                         {
-                            foreach (Money item in moneyList)
+                            var getMoney = moneyList.Where(x => x.MONEY_TYPE_ID == item.MONEY_TYPE_ID && x.MONEY_VALUE == item.MONEY_VALUE).FirstOrDefault();
+                            if (getMoney != null)
                             {
-                                if (generalItem.MONEY_TYPE_ID == item.MONEY_TYPE_ID &&
-                                    generalItem.MONEY_VALUE == item.MONEY_VALUE)
-                                {
-                                    responseList.Add(item);
-                                }
+                                responseList.Add(getMoney);
                             }
                         }
+
                         var totalMoney = responseList.Sum(x => x.MONEY_VALUE);
+
                         if (moneyValue == totalMoney)
-                        {
                             return new WithDrawModel { IsSuccess = true, Message = "Para çekme işlemi başarılı", Data = responseList, TotalMoney = totalMoney };
-                        }
                         else
                             return new WithDrawModel { IsSuccess = false, Message = "Para çekme işlemi için yeterli para adedi bulunmamaktadır." };
                     }
                     else
-                        return new WithDrawModel { IsSuccess = false, Message = $"ATM içerisinde istenilen tutarda para bulunmamaktadır. En fazla çekilebilecek tutar {avaiableGetMoney}'dır." };
+                        return new WithDrawModel { IsSuccess = false, Message = $"ATM içerisinde istenilen tutarda para bulunmamaktadır. En fazla çekilebilecek tutar {avaiableGetMoney} {moneyType}'dır." };
                 }
                 else
                 {
@@ -113,7 +110,7 @@ namespace Automation.Service.Service
         }
         public async Task<List<Money>> SplitMoneyToPaper(int moneyValue, enumMoneyType moneyType)
         {
-            List<Money> moneyList = new List<Money>();
+            List<Money> moneyList = new();
             int[] paper = new int[] { 500, 100, 50, 20 };
             int[] paperCounter = new int[4];
 
@@ -123,7 +120,7 @@ namespace Automation.Service.Service
                 if (moneyValue >= paper[i])
                 {
                     paperCounter[i] = moneyValue / paper[i];
-                    moneyValue = moneyValue % paper[i];
+                    moneyValue %= paper[i];
                 }
             }
 
@@ -133,11 +130,13 @@ namespace Automation.Service.Service
                 {
                     for (int j = 0; j < paperCounter[i]; j++)
                     {
-                        Money money = new Money();
-                        money.MONEY_VALUE = paper[i];
-                        money.MONEY_TYPE_ID = moneyType;
-                        money.MONEY_NAME = moneyTypeToString(moneyType);
-                        money.ID_TAPE = 100; //Parçalanmış paraların bulunduğu kaset Queue olacak, Hangfire ile sürekli olarak tetiklenecek
+                        Money money = new()
+                        {
+                            MONEY_VALUE = paper[i],
+                            MONEY_TYPE_ID = moneyType,
+                            MONEY_NAME = moneyTypeToString(moneyType),
+                            ID_TAPE = 100 //Parçalanmış paraların bulunduğu kaset Queue olacak, Hangfire ile sürekli olarak tetiklenecek
+                        };
                         moneyList.Add(money);
                     }
                 }
@@ -155,6 +154,12 @@ namespace Automation.Service.Service
                 case enumMoneyType.EUR: return enumMoneyName.Euro;
                 default: return enumMoneyName.TurkishLira;
             }
+        }
+
+        public async Task<List<Money>> WaitingMoneyListToProperTape()
+        {
+            var result = await _moneyRepository.WaitingMoneyListToProperTape();
+            return result;
         }
     }
 }

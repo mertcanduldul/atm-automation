@@ -16,5 +16,6 @@ namespace Automation.Core.Service
         Task<PreDepositModel> Deposit(DepositRequest request);
         Task<List<Money>> SplitMoneyToPaper(int moneyValue, enumMoneyType moneyType);
         enumMoneyName moneyTypeToString(enumMoneyType type);
+        Task<List<Money>> WaitingMoneyListToProperTape();
     }
 }

@@ -1,0 +1,26 @@
+version: '3.4'
+
+services:
+  automationapi:
+    image: ${DOCKER_REGISTRY-}automationapi
+    build:
+      context: .
+      dockerfile: AutomationAPI/Dockerfile
+    depends_on:
+      - db
+    ports:
+      - 443:8080
+  db:
+    environment:
+        ACCEPT_EULA: "Y"
+        SA_PASSWORD: Passw0rd.1
+    image: mcr.microsoft.com/azure-sql-edge
+    ports:
+      - 1433:1433 
+    restart: always
+    healthcheck:
+        test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Passw0rd.1 -Q 'exec sp_databases' || exit 1"]
+        interval: 10s
+        retries: 10
+        start_period: 10s
+        timeout: 3s 

@@ -9,7 +9,7 @@ namespace Automation.Core.Dto
 {
     public class DepositRequest
     {
-        public int MONEY_VALUE { get; set; }
-        public enumMoneyType MONEY_TYPE { get; set; }
+        public int Money { get; set; }
+        public enumMoneyType MoneyType { get; set; }
     }
 }

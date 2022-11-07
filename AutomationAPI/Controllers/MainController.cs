@@ -1,6 +1,8 @@
 ﻿using Automation.Core.Dto;
 using Automation.Core.Repository;
 using Automation.Core.Service;
+using Hangfire;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -12,12 +14,10 @@ namespace AutomationAPI.Controllers
     {
         public readonly IMoneyService _moneyService;
 
-
         public MainController(IMoneyService moneyService)
         {
             _moneyService = moneyService;
-            _moneyService.WaitingMoneyListToProperTape();
-
+            RecurringJob.AddOrUpdate(() => _moneyService.WaitingMoneyListToProperTape(), Cron.Minutely);
         }
 
         [HttpGet]
@@ -29,6 +29,7 @@ namespace AutomationAPI.Controllers
 
         [HttpPost]
         [SwaggerOperation(Summary = "Para çekme işlemi")]
+        [Authorize]
         public async Task<WithDrawResponse> WithDraw(WithDrawRequest request)
         {
             var list = await _moneyService.WithDraw(request.MoneyType, request.Money);
@@ -41,6 +42,7 @@ namespace AutomationAPI.Controllers
 
         [HttpPost]
         [SwaggerOperation(Summary = "Para yatırma işlemi")]
+        [Authorize]
         public async Task<DepositResponse> Deposit(DepositRequest request)
         {
             var list = await _moneyService.Deposit(request);
@@ -51,6 +53,7 @@ namespace AutomationAPI.Controllers
 
         [HttpGet]
         [SwaggerOperation(Summary = "ATM toplam parayı döner")]
+        [Authorize]
         public async Task<IActionResult> GetTotalMoney()
         {
             var result = await _moneyService.GetTotalMoney();

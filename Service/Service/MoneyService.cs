@@ -75,14 +75,14 @@ namespace Automation.Service.Service
         {
             try
             {
-                if (request.MONEY_VALUE % 20 == 0 || request.MONEY_VALUE % 50 == 0 || request.MONEY_VALUE % 100 == 0 || request.MONEY_VALUE % 500 == 0)
+                if (request.Money % 20 == 0 || request.Money % 50 == 0 || request.Money % 100 == 0 || request.Money % 500 == 0)
                 {
-                    var tapeId = await _moneyRepository.GetProperTapeIdForDepositByMoneyType(request.MONEY_TYPE);
+                    var tapeId = await _moneyRepository.GetProperTapeIdForDepositByMoneyType(request.MoneyType);
 
                     if (tapeId > 0)
                     {
                         var tapeCount = await _moneyRepository.GetMoneyCountByTapeId(tapeId);
-                        var depositPaper = await SplitMoneyToPaper(request.MONEY_VALUE, request.MONEY_TYPE);
+                        var depositPaper = await SplitMoneyToPaper(request.Money, request.MoneyType);
 
                         if (tapeCount + depositPaper.Count < 100)
                         {

@@ -3,7 +3,7 @@
 
 ##### Bu proje temel anlamda atm otomasyonu için temel business ve otomasyonalar içerir. #####
 ##### EntityFramework Core kullanılmıştır, kullanıcılar için Basic Auth eklenmiştir. Yatırılan veya değişiklik olan paralar Dakikada bir sisteme otomatik olarak tanıtılmaktadır. #####
-##### Uygulama Dockerize edilmiştir. #####
+##### Basic Auth username: admin Password: 123 #####
 
 
 ## Kullanılan Teknolojiler

@@ -5,7 +5,11 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["AutomationAPI.csproj", "AutomationAPI/"]
+COPY ["./AutomationAPI/AutomationAPI.csproj", "AutomationAPI/"]
+COPY ["./Repository/Repository.csproj", "Repository/"]
+COPY ["./Service/Service.csproj", "Service/"]
+COPY ["./Core/Core.csproj", "Core/"]
+
 RUN dotnet restore "AutomationAPI/AutomationAPI.csproj"
 COPY . .
 WORKDIR "/src/AutomationAPI/"

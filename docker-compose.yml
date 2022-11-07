@@ -5,11 +5,15 @@ services:
     image: ${DOCKER_REGISTRY-}automationapi
     build:
       context: .
-      dockerfile: AutomationAPI/Dockerfile
+      dockerfile: Dockerfile
     depends_on:
       - db
     ports:
-      - 443:8080
+      - 5000:80
+      - 5001:443
+    environment:
+      - ConnectionString=Server=db;Initial Catalog=otomation;User Id=sa;Password=Passw0rd.1
+
   db:
     environment:
         ACCEPT_EULA: "Y"
@@ -17,10 +21,4 @@ services:
     image: mcr.microsoft.com/azure-sql-edge
     ports:
       - 1433:1433 
-    restart: always
-    healthcheck:
-        test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Passw0rd.1 -Q 'exec sp_databases' || exit 1"]
-        interval: 10s
-        retries: 10
-        start_period: 10s
-        timeout: 3s 
+    restart: always 

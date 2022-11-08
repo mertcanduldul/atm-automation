@@ -11,8 +11,6 @@ services:
     ports:
       - 5000:80
       - 5001:443
-    environment:
-      - ConnectionString=Server=db;Initial Catalog=otomation;User Id=sa;Password=Passw0rd.1
 
   db:
     environment:
